@@ -44,4 +44,22 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="128dp" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="on"
+        android:id="@+id/btnOn"
+        android:layout_above="@+id/button"
+        android:layout_alignStart="@+id/button"
+        android:layout_marginBottom="62dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="off"
+        android:id="@+id/btnOff"
+        android:layout_alignTop="@+id/btnOn"
+        android:layout_toEndOf="@+id/textView"
+        android:layout_marginTop="38dp" />
+
 </RelativeLayout>
