@@ -11,15 +11,10 @@ Arduino Code - C/C++
 #include <SPI.h>
 #include <SD.h>
 #include <Wire.h>
-#include <Time.h>
-#include <TimeLib.h>
 
 #define DEVICE (0x53) // Device address as specified in data sheet 
 
 byte _buff[6];
-
-int j = 0;
-int stepC = 0;
 
 const int chipSel = 4; //Chip Select (CS) Pin
 
@@ -33,7 +28,6 @@ char DATAY0 = 0x34; //Y-Axis Data 0
 char DATAY1 = 0x35; //Y-Axis Data 1
 char DATAZ0 = 0x36; //Z-Axis Data 0
 char DATAZ1 = 0x37; //Z-Axis Data 1
-
 
 void setup(){
   Wire.begin();
@@ -53,24 +47,21 @@ void setup(){
   //Put the ADXL345 into Measurement Mode by writing 0x08 to the POWER_CTL register.
   writeTo(POWER_CTL, 0x08);
 
+      
 
 }
 
 void loop(){
-
   
-  j = j + 1;
-
-
   readFrom( DATAX0, BytesToRead, _buff);
   
     int x = (((int)_buff[1]) << 8) | _buff[0];   
   int y = (((int)_buff[3]) << 8) | _buff[2];
   int z = (((int)_buff[5]) << 8) | _buff[4];
 
-  x = x - 127;
-  y = y - 10;
-  z = z + 35;
+  //x = x - 27;
+  //y = y - 8;
+  //z = z + 35;
   
   Serial.print("x: ");
   Serial.print( x );
@@ -79,39 +70,20 @@ void loop(){
   Serial.print(" z: ");
   Serial.println( z );
 
- int res = sqrt( pow(x,2) + pow(y,2) + pow(z,2));  //Calculate vector
+ int res = x + y + z;
 
-  Serial.println( res );
-
-  if (res > 100){
-    stepC = stepC + 1;
-    Serial.print("COUNTED!  ");
-    Serial.println( stepC );
-    }
-  
-  if (j > 10)
-  {
-    //String writeStr = String(stepC);
-    
-    Serial.print("Dumping to SD Card...");
-    
-    File dataFile = SD.open("datalog2.txt", FILE_WRITE);
+    File dataFile = SD.open("datalog.txt", FILE_WRITE);
     if (dataFile){
-      dataFile.print(time_t());
-      dataFile.print(": ");
-      dataFile.println(stepC);
+      dataFile.println(res);
       dataFile.close();
-      Serial.println("Write sucessful!.");
+      Serial.println("Data written to card.");
     }
     else{
       Serial.println("Error writing to card!");
     }
-    
-    j = 0;
-    stepC = 0;
-  }
   
-  delay(1000);
+  
+  delay(100);
 }
 
 void writeTo(byte address, byte val){
