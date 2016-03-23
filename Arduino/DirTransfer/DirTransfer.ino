@@ -5,11 +5,10 @@ POL13390234
 CMP3XXXX
 Project - Feed Bruce's cats
 
-Arduino Code - C/C++
+Arduino Code - C/C++  DIRECT TRANSMIT TO PHONE VERSION
 */
 
 #include <SPI.h>
-#include <SD.h>
 #include <Wire.h>
 //#include <Time.h>
 //#include <TimeLib.h>
@@ -20,8 +19,6 @@ byte _buff[6];
 
 int j = 0;
 int stepC = 0;
-
-const int chipSel = 4; //Chip Select (CS) Pin
 
 uint8_t BytesToRead = 6;
 
@@ -39,14 +36,7 @@ void setup(){
   Wire.begin();
   Serial.begin(9600);
   while (!Serial) { delay(100); } //Wait for Serial to start for output 
-  Serial.print("Starting Serial Output...");
-  
-  if (!SD.begin(chipSel)) {
-    Serial.print("SD Card not present or failed!");
-    return;
-  }
-  
-  Serial.print("SD Card is present.");
+  //Serial.print("Starting Serial Output...");
   
   //Put the ADXL345 into +/- 4G range by writing the value 0x01 to the DATA_FORMAT register.
   writeTo(DATA_FORMAT, 0x01);
@@ -72,46 +62,33 @@ void loop(){
   y = y - 10;
   z = z + 35;
   
-  Serial.print("x: ");
-  Serial.print( x );
-  Serial.print(" y: ");
-  Serial.print( y );
-  Serial.print(" z: ");
-  Serial.println( z );
+  //Serial.print("x: ");
+  //Serial.print( x );
+  //Serial.print(" y: ");
+  //Serial.print( y );
+  //Serial.print(" z: ");
+  //Serial.println( z );
 
  int res = sqrt( pow(x,2) + pow(y,2) + pow(z,2));  //Calculate vector
 
-  Serial.println( res );
+  //Serial.println( res );
 
   if (res > 100){
     stepC = stepC + 1;
-    Serial.print("COUNTED!  ");
-    Serial.println( stepC );
+    //Serial.print("COUNTED!  ");
+    //Serial.println( stepC );
     }
   
   if (j > 10)
   {
     //String writeStr = String(stepC);
-    
-    Serial.print("Dumping to SD Card...");
-    
-    File dataFile = SD.open("datalog2.txt", FILE_WRITE);
-    if (dataFile){
-      dataFile.print("Hello");
-      dataFile.print(": ");
-      dataFile.println(stepC);
-      dataFile.close();
-      Serial.println("Write sucessful!.");
-    }
-    else{
-      Serial.println("Error writing to card!");
-    }
-    
+
+    Serial.println(stepC);
     j = 0;
     stepC = 0;
   }
   
-  delay(1000);
+  delay(100);
 }
 
 void writeTo(byte address, byte val){
