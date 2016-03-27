@@ -10,8 +10,8 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,9 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+    DatabaseHelper catDb;
     private static final String TAG = "bluetooth2";
-
-    SQLiteDatabase mydatabase = openOrCreateDatabase("cat_track",MODE_PRIVATE,null);
 
     Button btnOn, btnOff;
     TextView txtArduino;
@@ -48,6 +47,8 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        catDb = new DatabaseHelper(this);
 
         setContentView(R.layout.activity_main);
 
