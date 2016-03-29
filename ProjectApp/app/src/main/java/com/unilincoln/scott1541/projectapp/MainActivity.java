@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +56,8 @@ public class MainActivity extends Activity {
         btnOn = (Button) findViewById(R.id.btnOn);					// button LED ON
         btnOff = (Button) findViewById(R.id.btnOff);				// button LED OFF
         txtArduino = (TextView) findViewById(R.id.textView);		// for display the received data from the Arduino
+        //ImageView img = (ImageView) findViewById(R.id.imageView);
+        //img.setImageResource(R.drawable.homecat);
         btnOff.setEnabled(false);
 
 
@@ -94,7 +97,7 @@ public class MainActivity extends Activity {
                                     if (isInserted = true)
                                         Toast.makeText(MainActivity.this, "Data stored", Toast.LENGTH_LONG);
                                     else
-                                        Toast.makeText();
+                                        Toast.makeText(MainActivity.this, "Error storing data!", Toast.LENGTH_LONG);
                                 }
                                 //Log.d(TAG, "...String:"+ sb.toString() +  "Byte:" + msg.arg1 + "...");
                                 break;
