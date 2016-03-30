@@ -17,6 +17,12 @@ Arduino Code - C/C++  DIRECT TRANSMIT TO PHONE VERSION
 
 byte _buff[6];
 
+String date = "30:03:2016"; //Set data manually here
+
+int hour = 15; //Set rough starting time manually here
+int minute = 15;
+int second = 00;
+
 int j = 0;
 int stepC = 0;
 
@@ -74,21 +80,39 @@ void loop(){
   //Serial.println( res );
 
   if (res > 100){
-    stepC = stepC + 1;
+    stepC++;
     //Serial.print("COUNTED!  ");
-    //Serial.println( stepC );
+    Serial.println( stepC );
     }
   
   if (j > 10)
   {
-    //String writeStr = String(stepC);
+    second++;
+    
+    if (second > 59){
+    minute++;
 
+    Serial.print(date);
+    Serial.print(".");
+    Serial.print(hour);
+    Serial.print(":");
+    Serial.print(minute);
+    Serial.print(".");
     Serial.println(stepC);
-    j = 0;
+
+    second = 0;
     stepC = 0;
+    }
+    
+    if (minute > 59){
+    hour++;
+    minute = 0;
+    }
+    
+    j = 0;
   }
   
-  delay(100);
+  delay(10);
 }
 
 void writeTo(byte address, byte val){

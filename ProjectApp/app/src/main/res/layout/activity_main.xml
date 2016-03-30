@@ -8,6 +8,15 @@
     android:fitsSystemWindows="true"
     tools:context="com.unilincoln.scott1541.projectapp.MainActivity">
 
+    <ImageView
+        android:layout_width="311dp"
+        android:layout_height="366dp"
+        android:id="@+id/imageView"
+        android:src="@drawable/homecat"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/btnOn"
+        android:layout_marginEnd="33dp" />
+
     <android.support.design.widget.AppBarLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -23,50 +32,40 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <Button
-        android:layout_width="196dp"
-        android:layout_height="wrap_content"
-        android:text="Get Data"
-        android:id="@+id/button"
-        android:layout_marginBottom="136dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_vertical" />
-
-    <include layout="@layout/content_main"/>
+    <include layout="@layout/content_main"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/textView"
-        android:layout_above="@+id/btnOn"
-        android:layout_alignEnd="@+id/btnOff" />
+        android:layout_marginTop="37dp"
+        android:layout_below="@+id/textView2"
+        android:layout_alignEnd="@+id/textView2" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Recieve Data"
         android:id="@+id/btnOn"
-        android:layout_above="@+id/btnOff"
-        android:layout_alignStart="@+id/button" />
+        android:layout_alignBottom="@+id/textView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="61dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Stop Data"
         android:id="@+id/btnOff"
-        android:layout_above="@+id/button"
-        android:layout_alignStart="@+id/btnOn"
-        android:layout_marginBottom="16dp" />
+        android:layout_above="@+id/button3"
+        android:layout_alignEnd="@+id/button2"
+        android:layout_marginBottom="75dp" /><![CDATA[
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:src="@drawable/homecat"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/button" />/>
+    />
+
+    ]]>
 
     <TextView
         android:layout_width="wrap_content"
@@ -74,9 +73,27 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Cat Track"
         android:id="@+id/textView2"
-        android:layout_marginStart="64dp"
-        android:layout_above="@+id/textView"
-        android:layout_toEndOf="@+id/button"
-        android:layout_marginBottom="26dp" />
+        android:layout_marginStart="17dp"
+        android:layout_below="@+id/view"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="23dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Activity"
+        android:id="@+id/button2"
+        android:layout_above="@+id/button3"
+        android:layout_alignStart="@+id/button3"
+        android:layout_marginStart="23dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Feeding Time"
+        android:id="@+id/button3"
+        android:layout_marginBottom="50dp"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignEnd="@+id/btnOn" />
 
 </RelativeLayout>

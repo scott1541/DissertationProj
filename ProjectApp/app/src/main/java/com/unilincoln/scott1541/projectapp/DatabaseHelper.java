@@ -50,8 +50,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
     }
 
-    //public Cursor getData()
-    //{
-
-    //}
+    public Cursor getData(String date)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TBL_NAME + "WHERE DATE " + date, null);
+        return data;
+    }
 }
