@@ -105,31 +105,6 @@ public class MainActivity extends Activity {
 
                 btAdapter = BluetoothAdapter.getDefaultAdapter();		// get Bluetooth adapter
                 checkBTState();
-                BluetoothDevice device = btAdapter.getRemoteDevice(address);
-
-                try {
-                    btSocket = createBluetoothSocket(device);
-                } catch (IOException e) {
-                    errorExit("Fatal Error", "In onResume() and socket create failed: " + e.getMessage() + ".");
-                }
-
-                btAdapter.cancelDiscovery();
-
-                // Establish the connection.  This will block until it connects.
-                Log.d(TAG, "...Connecting...");
-                try {
-                    btSocket.connect();
-                    Log.d(TAG, "....Connection ok...");
-                } catch (IOException e) {
-                    try {
-                        btSocket.close();
-                    } catch (IOException e2) {
-                        errorExit("Fatal Error", "In onResume() and unable to close socket during connection failure" + e2.getMessage() + ".");
-                    }
-                }
-                mConnectedThread = new ConnectedThread(btSocket);
-                mConnectedThread.start();
-
 
                 h = new Handler() {
                     public void handleMessage(android.os.Message msg) {
@@ -174,7 +149,7 @@ public class MainActivity extends Activity {
                 btnOn.setEnabled(true);
                 //mConnectedThread.write("0");	// Send "0" via Bluetooth
                 //Toast.makeText(getBaseContext(), "Turn off LED", Toast.LENGTH_SHORT).show();
-                //btSocket.close();
+                btSocket.close();
             }
         });
     }
