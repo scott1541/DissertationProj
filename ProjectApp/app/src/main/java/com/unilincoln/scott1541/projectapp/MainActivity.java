@@ -56,45 +56,13 @@ public class MainActivity extends Activity {
         btnOn = (Button) findViewById(R.id.btnOn);					// button LED ON
         btnOff = (Button) findViewById(R.id.btnOff);				// button LED OFF
         txtArduino = (TextView) findViewById(R.id.textView);		// for display the received data from the Arduino
+        //ImageView img = (ImageView) findViewById(R.id.imageView);
+        //img.setImageResource(R.drawable.homecat);
         btnOff.setEnabled(false);
-        /*
+
+
         btAdapter = BluetoothAdapter.getDefaultAdapter();		// get Bluetooth adapter
         checkBTState();
-        h = new Handler() {
-            public void handleMessage(android.os.Message msg) {
-                switch (msg.what) {
-                    case RECIEVE_MESSAGE:													// if receive massage
-                        byte[] readBuf = (byte[]) msg.obj;
-                        String strIncom = new String(readBuf, 0, msg.arg1);					// create string from bytes array
-                        sb.append(strIncom);												// append string
-                        int endOfLineIndex = sb.indexOf("\r\n");							// determine the end-of-line
-                        if (endOfLineIndex > 0) { 											// if end-of-line,
-                            String sbprint = sb.substring(0, endOfLineIndex);				// extract string
-                            sb.delete(0, sb.length());										// and clear
-                            txtArduino.setText("Data from Arduino: " + sbprint); 	        // update TextView
-                            //btnOff.setEnabled(true);
-                            //btnOn.setEnabled(true);
-
-                            //sbprint = "24:03:2016.11:54.114";
-
-                            String[] splitInc = sbprint.split("\\.");  //Split incoming string into 3 seperate strings for date, time and count
-                            txtArduino.setText(splitInc[2]);
-
-                            int countVal = Integer.parseInt(splitInc[2]);
-                            boolean isInserted = catDb.insertData(splitInc[0], splitInc[1], countVal);
-
-                            if (isInserted = true)
-                                Toast.makeText(MainActivity.this, "Data stored", Toast.LENGTH_LONG);
-                            else
-                                Toast.makeText(MainActivity.this, "Error storing data!", Toast.LENGTH_LONG);
-                        }
-                        //Log.d(TAG, "...String:"+ sb.toString() +  "Byte:" + msg.arg1 + "...");
-                        break;
-                }
-            };
-        }; */
-
-
 
         btnOn.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -102,9 +70,6 @@ public class MainActivity extends Activity {
                 btnOff.setEnabled(true);
                 //mConnectedThread.write("1");	// Send "1" via Bluetooth
                 //Toast.makeText(getBaseContext(), "Turn on LED", Toast.LENGTH_SHORT).show();
-
-                btAdapter = BluetoothAdapter.getDefaultAdapter();		// get Bluetooth adapter
-                checkBTState();
 
                 h = new Handler() {
                     public void handleMessage(android.os.Message msg) {
@@ -121,7 +86,7 @@ public class MainActivity extends Activity {
                                     //btnOff.setEnabled(true);
                                     //btnOn.setEnabled(true);
 
-                                    //sbprint = "24:03:2016.11:54.114";
+                                    sbprint = "24:03:2016.11:54.114";
 
                                     String[] splitInc = sbprint.split("\\.");  //Split incoming string into 3 seperate strings for date, time and count
                                     txtArduino.setText(splitInc[2]);
@@ -147,9 +112,8 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 btnOff.setEnabled(false);
                 btnOn.setEnabled(true);
-                //mConnectedThread.write("0");	// Send "0" via Bluetooth
+                mConnectedThread.write("0");	// Send "0" via Bluetooth
                 //Toast.makeText(getBaseContext(), "Turn off LED", Toast.LENGTH_SHORT).show();
-                btSocket.close();
             }
         });
     }
@@ -168,7 +132,7 @@ public class MainActivity extends Activity {
 
     @Override
     public void onResume() {
-        super.onResume(); /*
+        super.onResume();
 
         Log.d(TAG, "...onResume - try connect...");
 
@@ -186,11 +150,11 @@ public class MainActivity extends Activity {
             errorExit("Fatal Error", "In onResume() and socket create failed: " + e.getMessage() + ".");
         }
 
-    //try {
-      //btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
-    //} catch (IOException e) {
-      //errorExit("Fatal Error", "In onResume() and socket create failed: " + e.getMessage() + ".");
-    //}
+    /*try {
+      btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
+    } catch (IOException e) {
+      errorExit("Fatal Error", "In onResume() and socket create failed: " + e.getMessage() + ".");
+    }*/
 
         // Discovery is resource intensive.  Make sure it isn't going on
         // when you attempt to connect and pass your message.
@@ -213,7 +177,7 @@ public class MainActivity extends Activity {
         Log.d(TAG, "...Create Socket...");
 
         mConnectedThread = new ConnectedThread(btSocket);
-        mConnectedThread.start();  */
+        mConnectedThread.start();
     }
 
     @Override
