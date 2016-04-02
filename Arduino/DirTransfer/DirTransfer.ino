@@ -82,10 +82,10 @@ void loop(){
   if (res > 100){
     stepC++;
     //Serial.print("COUNTED!  ");
-    Serial.println( stepC );
+    //Serial.println( stepC );
     }
   
-  if (j > 10)
+  if (j > 5)  //Should be 10
   {
     second++;
     
@@ -112,7 +112,7 @@ void loop(){
     j = 0;
   }
   
-  delay(10);
+  delay(1);  //Should be 100
 }
 
 void writeTo(byte address, byte val){
