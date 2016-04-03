@@ -53,7 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getData(String date)
     {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + TBL_NAME + "WHERE DATE " + date, null);
+        Cursor data = db.rawQuery("SELECT * FROM " + TBL_NAME, null); //+ " WHERE DATE=" + date, null);
         return data;
     }
 }

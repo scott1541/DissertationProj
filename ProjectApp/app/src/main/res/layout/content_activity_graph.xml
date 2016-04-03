@@ -12,4 +12,12 @@
     tools:context="com.unilincoln.scott1541.projectapp.ActivityGraph"
     tools:showIn="@layout/activity_activity_graph">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Bloody pesky cats"
+        android:id="@+id/textView3"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

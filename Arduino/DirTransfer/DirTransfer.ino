@@ -20,8 +20,7 @@ byte _buff[6];
 String date = "30:03:2016"; //Set data manually here
 
 int hour = 15; //Set rough starting time manually here
-int minute = 15;
-int second = 00;
+int second = 0;
 
 int j = 0;
 int stepC = 0;
@@ -82,37 +81,34 @@ void loop(){
   if (res > 100){
     stepC++;
     //Serial.print("COUNTED!  ");
-    Serial.println( stepC );
+    //Serial.println( stepC );
     }
   
   if (j > 10)
   {
-    second++;
     
-    if (second > 59){
-    minute++;
-
     Serial.print(date);
     Serial.print(".");
     Serial.print(hour);
-    Serial.print(":");
-    Serial.print(minute);
     Serial.print(".");
     Serial.println(stepC);
-
-    second = 0;
     stepC = 0;
-    }
     
-    if (minute > 59){
+    second++;  
+    
+    if (second >= 3600){
     hour++;
-    minute = 0;
+    second = 0;
+    }
+
+    if (hour >= 24){
+    hour = 0;
     }
     
     j = 0;
   }
   
-  delay(10);
+  delay(10); //should be 100
 }
 
 void writeTo(byte address, byte val){
