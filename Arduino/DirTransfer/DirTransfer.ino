@@ -86,29 +86,13 @@ void loop(){
   
   if (j > 10)
   {
-    
-    Serial.print(date);
-    Serial.print(".");
-    Serial.print(hour);
-    Serial.print(".");
+    Serial.print("Count_value:");
     Serial.println(stepC);
     stepC = 0;
-    
-    second++;  
-    
-    if (second >= 3600){
-    hour++;
-    second = 0;
-    }
-
-    if (hour >= 24){
-    hour = 0;
-    }
-    
     j = 0;
   }
   
-  delay(10); //should be 100
+  delay(100); //should be 100
 }
 
 void writeTo(byte address, byte val){

@@ -5,13 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Created by Scott on 26/03/2016.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String DB_NAME = "cat_track.db";
+    public static final String DB_NAME = "cat_track.db"; //cat_track_v1.db
     public static final int DB_VERSION = 1;
     public static final String TBL_NAME = "cat_1";
     public static final String C1 = "ID";
@@ -27,6 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME + "(ID INT, DATE VARCHAR, TIME VARCHAR, COUNT INT);");
+        //db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME + "(ID INT AUTO_INCREMENT, DATE CHAR (10), TIME INT, COUNT INT, PRIMARY KEY (ID));");
     }
 
     @Override
@@ -35,15 +37,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertData(String date, String time, int count)
+    public boolean insertData(String date, int time, int count)
     {
+        Log.d("DB Helper: ","Passed values: " + date + time + count);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(C2,date);
-        contentValues.put(C3,time);
+        contentValues.put(C2, date);
+        contentValues.put(C3, time);
         contentValues.put(C4, count);
         long result = db.insert(TBL_NAME, null, contentValues);
 
+        //db.execSQL("INSERT INTO " + TBL_NAME + " (DATE,TIME,COUNT) VALUES (" + date +"," + time + "," + count + ");" );
         if (result == -1)
             return false;
         else
@@ -53,7 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getData(String date)
     {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + TBL_NAME, null); //+ " WHERE DATE=" + date, null);
+        Cursor data = db.rawQuery("SELECT * FROM " + TBL_NAME, null); //+ " WHERE DATE = " + date, null);
         return data;
     }
 }

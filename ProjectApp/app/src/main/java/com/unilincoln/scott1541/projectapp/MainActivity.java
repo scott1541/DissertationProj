@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.UUID;
 
 import android.app.Activity;
@@ -29,7 +31,8 @@ public class MainActivity extends Activity {
     Handler h;
 
     boolean start = false;
-    String prevHour;
+    int prevHour;
+    String curDate;
     int recVal = 0;
     int countVal = 0;
 
@@ -50,6 +53,9 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //final Calendar c = Calendar.getInstance();
+
 
         catDb = new DatabaseHelper(this);
 
@@ -79,20 +85,41 @@ public class MainActivity extends Activity {
                             //txtArduino.setText("Data from Arduino: " + sbprint); 	        // update TextView
                             //btnOff.setEnabled(true);
                             //btnOn.setEnabled(true);
-
-                            //sbprint = "24:03:2016.11:54.114";
-
+                            Calendar c = Calendar.getInstance();
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                            curDate = sdf.format(c.getTime());
                             try {
-                                String[] splitInc = sbprint.split("\\.");  //Split incoming string into 3 seperate strings for date, time and count
-                                //txtArduino.setText(splitInc[2]);
-
-                                recVal = Integer.parseInt(splitInc[2]);
-
                                 if (!start) {
-                                    prevHour = splitInc[1];
+                                    prevHour = c.get(Calendar.MINUTE);
                                     start = true;
                                 }
+                                String[] splitInc = sbprint.split("\\:");  //Split incoming string into 3 seperate strings for date, time and count
+                                txtArduino.setText("Cat within range!");
 
+                                recVal = Integer.parseInt(splitInc[1]);
+
+                                Log.d(TAG, "Count++... " + countVal + "  " + curDate);
+
+                                countVal = countVal + recVal;
+                                int tempHour = c.get(Calendar.MINUTE);
+                                tempHour = tempHour - 1;
+                                if (prevHour == tempHour){
+
+                                    Log.d(TAG, "INSERTING INTO DB: " + curDate + "  " + tempHour + "  " + countVal);
+                                    boolean isInserted = catDb.insertData(curDate, tempHour, countVal);
+                                    if (isInserted = true) {
+                                        Log.d(TAG, "...Inserted to database  " + curDate + "  " + tempHour + "  " + countVal);
+                                        Toast.makeText(MainActivity.this, "Data stored", Toast.LENGTH_LONG);
+                                        countVal = 0;
+                                    } else {
+                                        Log.d(TAG, "...Error inserting to database");
+                                        Toast.makeText(MainActivity.this, "Error storing data!", Toast.LENGTH_LONG);
+                                    }
+
+                                    countVal = 0;
+                                    start = false;
+                                }
+                                    /*
                                 if (prevHour == splitInc[1]) {
                                     countVal += recVal;
                                     Log.d(TAG, "Count++... " + countVal);
@@ -101,7 +128,7 @@ public class MainActivity extends Activity {
                                     boolean isInserted = catDb.insertData(splitInc[0], splitInc[1], countVal);
 
                                     if (isInserted = true) {
-                                        Log.d(TAG, "...Inserted to database");
+                                        Log.d(TAG, "...Inserted to database  " + splitInc[0] + "  " + splitInc[1] + "  " + countVal);
                                         Toast.makeText(MainActivity.this, "Data stored", Toast.LENGTH_LONG);
                                         countVal = 0;
                                     } else {
@@ -110,8 +137,8 @@ public class MainActivity extends Activity {
                                     }
 
                                     prevHour = splitInc[1];
-                                }
-                            } catch (IndexOutOfBoundsException e){
+                                } */
+                            } catch (Exception e){
                                 Log.d(TAG, "Error recieving data... " + e);
                             }
 
