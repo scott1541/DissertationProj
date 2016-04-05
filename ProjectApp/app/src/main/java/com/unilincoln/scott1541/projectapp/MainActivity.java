@@ -13,6 +13,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +25,8 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
     DatabaseHelper catDb;
+    //SQLiteDatabase db = new catDb.getWritableDatabase();
+
     private static final String TAG = "bluetooth2";
 
     Button btnOn, btnOff;
@@ -165,7 +168,8 @@ public class MainActivity extends Activity {
     public void tempIns (View view){
         //Intent intent = new Intent(this, FeedingTime.class);
         //startActivity(intent);
-        catDb.insertData("12-34-5678", 24, 555);
+        catDb.insertData("24-12-0880", 11, 888);
+        //db.execSQL("INSERT INTO " + "cat_1" + " (DATE, TIME, COUNT) VALUES " + "(" + "24-12-1001" +", " + "12" + ", " + "911" + ");");
         Log.d(TAG, "...Inserted to database  ");
     }
 
