@@ -14,12 +14,15 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ActivityGraph extends AppCompatActivity {
 
     private static final String TAG = "catactivity";
-    String date = "04-04-2016";
+    //String date = "04-04-2016";
+    DatabaseHelper catDb = new DatabaseHelper(this);
 
 
     @Override
@@ -39,7 +42,15 @@ public class ActivityGraph extends AppCompatActivity {
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        DatabaseHelper catDb = new DatabaseHelper(this);
+
+
+    }
+
+    public void todayAc() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String date = sdf.format(c.getTime());
+
         Cursor data = catDb.getData(date);
 
         if (data.getCount() == 0) {
@@ -58,6 +69,7 @@ public class ActivityGraph extends AppCompatActivity {
                 datee[i] = data.getString(1);
                 time[i] = data.getString(2);
                 count[i] = data.getInt(3);
+                Log.d(TAG, "DATA: " + data.getString(0) + " " + data.getString(1) + " " + data.getString(2) + " " + data.getString(3));
             }
         }
 /*
@@ -71,6 +83,8 @@ public class ActivityGraph extends AppCompatActivity {
             Log.d(TAG, "SUCCESS!!!!!!!!" + datee[3] + time[3] + count[3]);
             Log.d(TAG, "SUCCESS!!!!!!!!" + datee[4] + time[4] + count[4]);
             Log.d(TAG, "SUCCESS!!!!!!!!" + datee[2] + time[2] + count[2]);
+
+            BarChart bChar = (BarChart) findViewById(R.id.chart);
 
             ArrayList<BarEntry> entries = new ArrayList<>();
             entries.add(new BarEntry(count[0], 0));
@@ -126,15 +140,234 @@ public class ActivityGraph extends AppCompatActivity {
             labels.add("22:00");
             labels.add("23:00");
 
-            BarChart chart = new BarChart(this);
-            setContentView(chart);
+            //bChar = new BarChart(this);
+            //BarChart chart = new BarChart(this);
+            //setContentView(bChar);
 
             BarData data2 = new BarData(labels, dataset);
-            chart.setData(data2);
-            chart.setDescription("Number of steps taken by Felix");
+            bChar.setData(data2);
+            bChar.setDescription("Number of steps taken by Felix");
         } catch (Exception e){
             Log.d(TAG, "Error!!! " + e);
         }
+    }
+
+    public void yesterdayAc(){
+
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, -1);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String date = sdf.format(c.getTime());
+
+        Cursor data = catDb.getData(date);
+
+        if (data.getCount() == 0) {
+            Log.d(TAG, "Returned no data.");
+            //Show message to user
+        } else {
+            Log.d(TAG, "Database contains " + data.getCount() + " values.");
+        }
+        String[] datee = new String[data.getCount()];
+        String[] time = new String[data.getCount()];
+        int[] count = new int[24];
+
+
+        if (data.moveToNext()) {
+            for (int i = 0; i < data.getCount(); i++) {
+                datee[i] = data.getString(1);
+                time[i] = data.getString(2);
+                count[i] = data.getInt(3);
+                Log.d(TAG, "DATA: " + data.getString(0) + " " + data.getString(1) + " " + data.getString(2) + " " + data.getString(3));
+            }
+        }
+/*
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        for (int j = 0; j < time.length; j++)
+        {
+            entries.add(new BarEntry(count[j]), count[j]);
+        } *///float word = 0.0f;
+
+        try {
+            Log.d(TAG, "SUCCESS!!!!!!!!" + datee[3] + time[3] + count[3]);
+            Log.d(TAG, "SUCCESS!!!!!!!!" + datee[4] + time[4] + count[4]);
+            Log.d(TAG, "SUCCESS!!!!!!!!" + datee[2] + time[2] + count[2]);
+
+            BarChart bChar = (BarChart) findViewById(R.id.chart);
+
+            ArrayList<BarEntry> entries = new ArrayList<>();
+            entries.add(new BarEntry(count[0], 0));
+            entries.add(new BarEntry(count[1], 1));
+            entries.add(new BarEntry(count[2], 2));
+            entries.add(new BarEntry(count[3], 3));
+            entries.add(new BarEntry(count[4], 4));
+            entries.add(new BarEntry(count[5], 5));
+            entries.add(new BarEntry(count[6], 6));
+            entries.add(new BarEntry(count[7], 7));
+            entries.add(new BarEntry(count[8], 8));
+            entries.add(new BarEntry(count[9], 9));
+            entries.add(new BarEntry(count[10], 10));
+            entries.add(new BarEntry(count[11], 11));
+            entries.add(new BarEntry(count[12], 12));
+            entries.add(new BarEntry(count[13], 13));
+            entries.add(new BarEntry(count[14], 14));
+            entries.add(new BarEntry(count[14], 15));
+            entries.add(new BarEntry(count[16], 16));
+            entries.add(new BarEntry(count[17], 17));
+            entries.add(new BarEntry(count[18], 18));
+            entries.add(new BarEntry(count[19], 19));
+            entries.add(new BarEntry(count[20], 20));
+            entries.add(new BarEntry(count[21], 21));
+            entries.add(new BarEntry(count[22], 22));
+            entries.add(new BarEntry(count[23], 23));
+
+            BarDataSet dataset = new BarDataSet(entries, "# of Steps");
+
+            ArrayList<String> labels = new ArrayList<String>();
+            labels.add("00:00");
+            labels.add("01:00");
+            labels.add("02:00");
+            labels.add("03:00");
+            labels.add("04:00");
+            labels.add("05:00");
+            labels.add("06:00");
+            labels.add("07:00");
+            labels.add("08:00");
+            labels.add("09:00");
+            labels.add("10:00");
+            labels.add("11:00");
+            labels.add("12:00");
+            labels.add("13:00");
+            labels.add("14:00");
+            labels.add("15:00");
+            labels.add("16:00");
+            labels.add("17:00");
+            labels.add("18:00");
+            labels.add("19:00");
+            labels.add("20:00");
+            labels.add("21:00");
+            labels.add("22:00");
+            labels.add("23:00");
+
+            //bChar = new BarChart(this);
+            //BarChart chart = new BarChart(this);
+            //setContentView(bChar);
+
+            BarData data2 = new BarData(labels, dataset);
+            bChar.setData(data2);
+            bChar.setDescription("Number of steps taken by Felix");
+        } catch (Exception e){
+            Log.d(TAG, "Error!!! " + e);
+        }
+
+    }
+
+    public void befyesterdayAc() {
+
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, -2);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String date = sdf.format(c.getTime());
+
+        Cursor data = catDb.getData(date);
+
+        if (data.getCount() == 0) {
+            Log.d(TAG, "Returned no data.");
+            //Show message to user
+        } else {
+            Log.d(TAG, "Database contains " + data.getCount() + " values.");
+        }
+        String[] datee = new String[data.getCount()];
+        String[] time = new String[data.getCount()];
+        int[] count = new int[24];
+
+
+        if (data.moveToNext()) {
+            for (int i = 0; i < data.getCount(); i++) {
+                datee[i] = data.getString(1);
+                time[i] = data.getString(2);
+                count[i] = data.getInt(3);
+                Log.d(TAG, "DATA: " + data.getString(0) + " " + data.getString(1) + " " + data.getString(2) + " " + data.getString(3));
+            }
+        }
+/*
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        for (int j = 0; j < time.length; j++)
+        {
+            entries.add(new BarEntry(count[j]), count[j]);
+        } *///float word = 0.0f;
+
+        try {
+            Log.d(TAG, "SUCCESS!!!!!!!!" + datee[3] + time[3] + count[3]);
+            Log.d(TAG, "SUCCESS!!!!!!!!" + datee[4] + time[4] + count[4]);
+            Log.d(TAG, "SUCCESS!!!!!!!!" + datee[2] + time[2] + count[2]);
+
+            BarChart bChar = (BarChart) findViewById(R.id.chart);
+
+            ArrayList<BarEntry> entries = new ArrayList<>();
+            entries.add(new BarEntry(count[0], 0));
+            entries.add(new BarEntry(count[1], 1));
+            entries.add(new BarEntry(count[2], 2));
+            entries.add(new BarEntry(count[3], 3));
+            entries.add(new BarEntry(count[4], 4));
+            entries.add(new BarEntry(count[5], 5));
+            entries.add(new BarEntry(count[6], 6));
+            entries.add(new BarEntry(count[7], 7));
+            entries.add(new BarEntry(count[8], 8));
+            entries.add(new BarEntry(count[9], 9));
+            entries.add(new BarEntry(count[10], 10));
+            entries.add(new BarEntry(count[11], 11));
+            entries.add(new BarEntry(count[12], 12));
+            entries.add(new BarEntry(count[13], 13));
+            entries.add(new BarEntry(count[14], 14));
+            entries.add(new BarEntry(count[14], 15));
+            entries.add(new BarEntry(count[16], 16));
+            entries.add(new BarEntry(count[17], 17));
+            entries.add(new BarEntry(count[18], 18));
+            entries.add(new BarEntry(count[19], 19));
+            entries.add(new BarEntry(count[20], 20));
+            entries.add(new BarEntry(count[21], 21));
+            entries.add(new BarEntry(count[22], 22));
+            entries.add(new BarEntry(count[23], 23));
+
+            BarDataSet dataset = new BarDataSet(entries, "# of Steps");
+
+            ArrayList<String> labels = new ArrayList<String>();
+            labels.add("00:00");
+            labels.add("01:00");
+            labels.add("02:00");
+            labels.add("03:00");
+            labels.add("04:00");
+            labels.add("05:00");
+            labels.add("06:00");
+            labels.add("07:00");
+            labels.add("08:00");
+            labels.add("09:00");
+            labels.add("10:00");
+            labels.add("11:00");
+            labels.add("12:00");
+            labels.add("13:00");
+            labels.add("14:00");
+            labels.add("15:00");
+            labels.add("16:00");
+            labels.add("17:00");
+            labels.add("18:00");
+            labels.add("19:00");
+            labels.add("20:00");
+            labels.add("21:00");
+            labels.add("22:00");
+            labels.add("23:00");
+
+            //bChar = new BarChart(this);
+            //BarChart chart = new BarChart(this);
+            //setContentView(bChar);
+
+            BarData data2 = new BarData(labels, dataset);
+            bChar.setData(data2);
+            bChar.setDescription("Number of steps taken by Felix");
+        } catch (Exception e){
+            Log.d(TAG, "Error!!! " + e);
+        }
+
     }
 
 }

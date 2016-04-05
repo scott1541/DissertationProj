@@ -59,7 +59,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Feeding time"
-        android:id="@+id/btnOff"
+        android:id="@+id/feedTime"
+        android:onClick="feedingTime"
         android:layout_marginBottom="51dp"
         android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/viewAct" /><![CDATA[

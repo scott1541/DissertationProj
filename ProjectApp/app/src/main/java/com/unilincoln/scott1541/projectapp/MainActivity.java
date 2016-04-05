@@ -62,10 +62,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         btnOn = (Button) findViewById(R.id.viewAct);					// button LED ON
-        btnOff = (Button) findViewById(R.id.btnOff);				// button LED OFF
+        btnOff = (Button) findViewById(R.id.feedTime);				// button LED OFF
         txtArduino = (TextView) findViewById(R.id.textView);		// for display the received data from the Arduino
-
-        btnOff.setEnabled(false);
 
 
         btAdapter = BluetoothAdapter.getDefaultAdapter();		// get Bluetooth adapter
@@ -90,7 +88,7 @@ public class MainActivity extends Activity {
                             curDate = sdf.format(c.getTime());
                             try {
                                 if (!start) {
-                                    prevHour = c.get(Calendar.MINUTE);
+                                    prevHour = c.get(Calendar.HOUR_OF_DAY);
                                     start = true;
                                 }
                                 String[] splitInc = sbprint.split("\\:");  //Split incoming string into 3 seperate strings for date, time and count
@@ -101,11 +99,11 @@ public class MainActivity extends Activity {
                                 Log.d(TAG, "Count++... " + countVal + "  " + curDate);
 
                                 countVal = countVal + recVal;
-                                int tempHour = c.get(Calendar.MINUTE);
+                                int tempHour = c.get(Calendar.HOUR_OF_DAY);
                                 tempHour = tempHour - 1;
                                 if (prevHour == tempHour){
 
-                                    Log.d(TAG, "INSERTING INTO DB: " + curDate + "  " + tempHour + "  " + countVal);
+                                    Log.d(TAG, "INSERTING INTO DB: " + curDate + "  " + tempHour + "  " + countVal); /*
                                     boolean isInserted = catDb.insertData(curDate, tempHour, countVal);
                                     if (isInserted = true) {
                                         Log.d(TAG, "...Inserted to database  " + curDate + "  " + tempHour + "  " + countVal);
@@ -114,7 +112,7 @@ public class MainActivity extends Activity {
                                     } else {
                                         Log.d(TAG, "...Error inserting to database");
                                         Toast.makeText(MainActivity.this, "Error storing data!", Toast.LENGTH_LONG);
-                                    }
+                                    }*/
 
                                     countVal = 0;
                                     start = false;
@@ -162,6 +160,8 @@ public class MainActivity extends Activity {
     public void feedingTime (View view){
         //Intent intent = new Intent(this, FeedingTime.class);
         //startActivity(intent);
+        catDb.insertData("12-34-5678", 24, 555);
+            Log.d(TAG, "...Inserted to database  ");
     }
 
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {

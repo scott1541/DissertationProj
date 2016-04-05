@@ -12,13 +12,14 @@ import android.util.Log;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String DB_NAME = "cat_track.db"; //cat_track_v1.db
+    public static final String DB_NAME = "cat_track1"; //cat_track_v1.db
     public static final int DB_VERSION = 1;
     public static final String TBL_NAME = "cat_1";
-    public static final String C1 = "ID";
-    public static final String C2 = "DATE";
-    public static final String C3 = "TIME";
-    public static final String C4 = "COUNT";
+    public static final String Col1 = "id";
+    public static final String Col2 = "date";
+    public static final String Col3 = "time";
+    public static final String Col4 = "count";
+    public int index = 0;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -27,8 +28,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME + "(ID INT, DATE VARCHAR, TIME VARCHAR, COUNT INT);");
-        //db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME + "(ID INT AUTO_INCREMENT, DATE CHAR (10), TIME INT, COUNT INT, PRIMARY KEY (ID));");
+        String init = "CREATE TABLE IF NOT EXISTS " + TBL_NAME + " (id INTEGER AUTOINCREMENT, date DATE, time INTEGER, count INTEGER);";
+        db.execSQL(init);
+       // db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME + "(ID INT AUTO_INCREMENT, DATE CHAR (10), TIME INT, COUNT INT);");
     }
 
     @Override
@@ -37,27 +39,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertData(String date, int time, int count)
+    public void insertData(String dateV, int timeV, int countV)
     {
-        Log.d("DB Helper: ","Passed values: " + date + time + count);
+        Log.d("DB Helper: ","Passed values: " + dateV + timeV + countV);
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(C2, date);
-        contentValues.put(C3, time);
-        contentValues.put(C4, count);
-        long result = db.insert(TBL_NAME, null, contentValues);
+        ContentValues cValues = new ContentValues();
+        //cValues.put(Col1, index);
+        cValues.put(Col2, dateV);
+        cValues.put(Col3, timeV);
+        cValues.put(Col4, countV);
+        db.insert(TBL_NAME, null, cValues);
 
-        //db.execSQL("INSERT INTO " + TBL_NAME + " (DATE,TIME,COUNT) VALUES (" + date +"," + time + "," + count + ");" );
-        if (result == -1)
-            return false;
-        else
-            return true;
     }
 
     public Cursor getData(String date)
     {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + TBL_NAME, null); //+ " WHERE DATE = " + date, null);
+        Cursor data = db.rawQuery("SELECT * FROM " + TBL_NAME + " WHERE date = " + date, null);
         return data;
     }
 }
