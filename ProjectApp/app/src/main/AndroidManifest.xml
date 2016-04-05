@@ -30,6 +30,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.unilincoln.scott1541.projectapp.MainActivity" />
         </activity>
+        <activity
+            android:name=".FeedingTime"
+            android:label="@string/title_activity_feeding_time"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.unilincoln.scott1541.projectapp.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

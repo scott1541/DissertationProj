@@ -158,10 +158,15 @@ public class MainActivity extends Activity {
     }
 
     public void feedingTime (View view){
+        Intent intent = new Intent(this, FeedingTime.class);
+        startActivity(intent);
+    }
+
+    public void tempIns (View view){
         //Intent intent = new Intent(this, FeedingTime.class);
         //startActivity(intent);
         catDb.insertData("12-34-5678", 24, 555);
-            Log.d(TAG, "...Inserted to database  ");
+        Log.d(TAG, "...Inserted to database  ");
     }
 
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {

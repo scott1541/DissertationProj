@@ -63,11 +63,7 @@
         android:onClick="feedingTime"
         android:layout_marginBottom="51dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/viewAct" /><![CDATA[
-
-    />
-
-    ]]>
+        android:layout_alignEnd="@+id/viewAct" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -79,5 +75,16 @@
         android:layout_below="@+id/view"
         android:layout_alignParentStart="true"
         android:layout_marginTop="23dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TEMP"
+        android:id="@+id/button4"
+        android:onClick="tempIns"
+        android:layout_above="@+id/feedTime"
+        android:layout_alignStart="@+id/feedTime"
+        android:layout_marginStart="26dp"
+        android:layout_marginBottom="41dp" />
 
 </RelativeLayout>
