@@ -12,7 +12,7 @@ import android.util.Log;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String DB_NAME = "cat_track5.db"; //cat_track_v1.db
+    public static final String DB_NAME = "cat_track6.db"; //cat_track_v1.db
     public static final int DB_VERSION = 1;
     public static final String TBL_NAME = "catstore";
     public static final String Col1 = "Id";
@@ -57,7 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getData(String date)
     {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + TBL_NAME + ";", null);//" WHERE date = " + date + ";", null);
+        Cursor data = db.rawQuery("SELECT * FROM " + TBL_NAME +  " WHERE Date = '" + date + "';", null);
         return data;
     }
 }

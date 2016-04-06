@@ -39,11 +39,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="Your cat is out of range!"
         android:id="@+id/textView"
-        android:layout_marginTop="37dp"
-        android:layout_below="@+id/textView2"
-        android:layout_alignEnd="@+id/textView2" />
+        android:textStyle="bold"
+        android:layout_above="@+id/imageView"
+        android:layout_toStartOf="@+id/viewAct" />
 
     <Button
         android:layout_width="wrap_content"

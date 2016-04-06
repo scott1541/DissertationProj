@@ -38,6 +38,7 @@ public class MainActivity extends Activity {
     String curDate;
     int recVal = 0;
     int countVal = 0;
+    int test = 1;
 
     final int RECIEVE_MESSAGE = 1;		// Status  for Handler
     private BluetoothAdapter btAdapter = null;
@@ -64,8 +65,8 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
-        btnOn = (Button) findViewById(R.id.viewAct);					// button LED ON
-        btnOff = (Button) findViewById(R.id.feedTime);				// button LED OFF
+        //btnOn = (Button) findViewById(R.id.viewAct);					// button LED ON
+        //btnOff = (Button) findViewById(R.id.feedTime);				// button LED OFF
         txtArduino = (TextView) findViewById(R.id.textView);		// for display the received data from the Arduino
 
 
@@ -95,7 +96,7 @@ public class MainActivity extends Activity {
                                     start = true;
                                 }
                                 String[] splitInc = sbprint.split("\\:");  //Split incoming string into 3 seperate strings for date, time and count
-                                txtArduino.setText("Cat within range!");
+                                txtArduino.setText("Your cat is within 10m!");
 
                                 recVal = Integer.parseInt(splitInc[1]);
 
@@ -168,7 +169,8 @@ public class MainActivity extends Activity {
     public void tempIns (View view){
         //Intent intent = new Intent(this, FeedingTime.class);
         //startActivity(intent);
-        catDb.insertData("24-12-0880", 11, 888);
+        test++;
+        catDb.insertData("04-04-2016", test, 887);
         //db.execSQL("INSERT INTO " + "cat_1" + " (DATE, TIME, COUNT) VALUES " + "(" + "24-12-1001" +", " + "12" + ", " + "911" + ");");
         Log.d(TAG, "...Inserted to database  ");
     }
