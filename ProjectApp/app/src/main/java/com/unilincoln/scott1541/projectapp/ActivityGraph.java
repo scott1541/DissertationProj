@@ -45,7 +45,7 @@ public class ActivityGraph extends AppCompatActivity {
 
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        String date = "05-04-2016";//sdf.format(c.getTime());
+        String date = sdf.format(c.getTime());
 
         //ReturnChart(date);
 

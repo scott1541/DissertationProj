@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
+import java.sql.SQLException;
+//mport android.database.sqlite.SQLiteException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.UUID;
@@ -25,6 +27,8 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
     DatabaseHelper catDb;
+    //DatabaseHelper catDb = new DatabaseHelper();
+    //catDb = new DatabaseHelper(this);
     //SQLiteDatabase db = new catDb.getWritableDatabase();
 
     private static final String TAG = "bluetooth2";
@@ -58,10 +62,31 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        catDb = new DatabaseHelper(this);
+
+        try {
+
+            catDb.createDataBase();
+
+        } catch (IOException ioe) {
+
+            throw new Error("Unable to create database");
+
+        }
+        try {
+
+            catDb.openDataBase();
+
+        } catch(SQLException sqle){
+
+            //throw sqle;
+
+        }
+
         //final Calendar c = Calendar.getInstance();
 
 
-        catDb = new DatabaseHelper(this);
+
 
         setContentView(R.layout.activity_main);
 
@@ -170,7 +195,7 @@ public class MainActivity extends Activity {
         //Intent intent = new Intent(this, FeedingTime.class);
         //startActivity(intent);
         test++;
-        catDb.insertData("04-04-2016", test, 887);
+        //catDb.insertData("04-04-2016", test, 887);
         //db.execSQL("INSERT INTO " + "cat_1" + " (DATE, TIME, COUNT) VALUES " + "(" + "24-12-1001" +", " + "12" + ", " + "911" + ");");
         Log.d(TAG, "...Inserted to database  ");
     }
