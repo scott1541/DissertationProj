@@ -23,7 +23,8 @@
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="380dp"
+        android:layout_gravity="bottom">
 
     </com.github.mikephil.charting.charts.BarChart>
 </LinearLayout>
@@ -40,7 +41,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DBT"
+        android:text="DBY"
         android:id="@+id/button2"
         android:onClick="befyesterdayAc"
         android:layout_gravity="center_vertical"

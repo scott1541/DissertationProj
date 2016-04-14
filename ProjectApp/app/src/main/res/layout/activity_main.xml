@@ -14,8 +14,8 @@
         android:id="@+id/imageView"
         android:src="@drawable/homecat"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/viewAct"
-        android:layout_marginEnd="33dp" />
+        android:layout_alignEnd="@+id/button4"
+        android:layout_marginEnd="40dp" />
 
     <android.support.design.widget.AppBarLayout
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
 
     <include layout="@layout/content_main"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignEnd="@+id/viewAct" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -42,8 +42,9 @@
         android:text="Your cat is out of range!"
         android:id="@+id/textView"
         android:textStyle="bold"
-        android:layout_above="@+id/imageView"
-        android:layout_toStartOf="@+id/viewAct" />
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -51,9 +52,8 @@
         android:text="View Activity"
         android:id="@+id/viewAct"
         android:onClick="viewActivity"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="61dp" />
+        android:layout_alignTop="@+id/feedTime"
+        android:layout_toEndOf="@+id/feedTime" />
 
     <Button
         android:layout_width="wrap_content"
@@ -61,9 +61,9 @@
         android:text="Feeding time"
         android:id="@+id/feedTime"
         android:onClick="feedingTime"
-        android:layout_marginBottom="51dp"
+        android:layout_marginBottom="37dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/viewAct" />
+        android:layout_toEndOf="@+id/textView2" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -79,12 +79,11 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TEMP"
+        android:text="Data"
         android:id="@+id/button4"
         android:onClick="tempIns"
+        android:layout_marginBottom="63dp"
         android:layout_above="@+id/feedTime"
-        android:layout_alignStart="@+id/feedTime"
-        android:layout_marginStart="26dp"
-        android:layout_marginBottom="41dp" />
+        android:layout_toEndOf="@+id/feedTime" />
 
 </RelativeLayout>
