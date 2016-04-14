@@ -86,4 +86,23 @@
         android:layout_above="@+id/feedTime"
         android:layout_toEndOf="@+id/feedTime" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="xxx"
+        android:id="@+id/textView6"
+        android:layout_below="@+id/textView7"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Data from Arduino:"
+        android:id="@+id/textView7"
+        android:layout_above="@+id/imageView"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

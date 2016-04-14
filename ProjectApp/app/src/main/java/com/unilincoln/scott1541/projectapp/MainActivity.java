@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
-//mport android.database.sqlite.SQLiteException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.UUID;
@@ -32,9 +31,10 @@ public class MainActivity extends Activity {
     //SQLiteDatabase db = new catDb.getWritableDatabase();
 
     private static final String TAG = "bluetooth2";
-
     Button btnOn, btnOff;
     TextView txtArduino;
+    TextView countvalue;
+    TextView txtshow;
     Handler h;
 
     boolean start = false;
@@ -54,10 +54,10 @@ public class MainActivity extends Activity {
     // SPP UUID service
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
-    // MAC-address of Bluetooth module (you must edit this line)
+    // MAC-address of Bluetooth module
     private static String address = "98:D3:31:70:78:3F";
 
-    /** Called when the activity is first created. */
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,19 +83,17 @@ public class MainActivity extends Activity {
 
         }
 
-        //final Calendar c = Calendar.getInstance();
-
-
 
 
         setContentView(R.layout.activity_main);
 
-        //btnOn = (Button) findViewById(R.id.viewAct);					// button LED ON
-        //btnOff = (Button) findViewById(R.id.feedTime);				// button LED OFF
-        txtArduino = (TextView) findViewById(R.id.textView);		// for display the received data from the Arduino
+        txtArduino = (TextView) findViewById(R.id.textView);   //Cat status
+        countvalue = (TextView) findViewById(R.id.textView6);  //Count value for showing data
+        txtshow = (TextView) findViewById(R.id.textView7);   //Data show label
+        countvalue.setVisibility(View.GONE);
+        txtshow.setVisibility(View.GONE);
 
-
-        btAdapter = BluetoothAdapter.getDefaultAdapter();		// get Bluetooth adapter
+        btAdapter = BluetoothAdapter.getDefaultAdapter();  // Get Bluetooth adapter
         checkBTState();
 
         h = new Handler() {
@@ -109,9 +107,7 @@ public class MainActivity extends Activity {
                         if (endOfLineIndex > 0) { 											// if end-of-line,
                             String sbprint = sb.substring(0, endOfLineIndex);				// extract string
                             sb.delete(0, sb.length());										// and clear
-                            //txtArduino.setText("Data from Arduino: " + sbprint); 	        // update TextView
-                            //btnOff.setEnabled(true);
-                            //btnOn.setEnabled(true);
+                            countvalue.setText(sbprint); 	        // update TextView
                             Calendar c = Calendar.getInstance();
                             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
                             curDate = sdf.format(c.getTime());
@@ -132,49 +128,19 @@ public class MainActivity extends Activity {
                                 tempHour = tempHour - 1;
                                 if (prevHour == tempHour){
 
-                                    Log.d(TAG, "INSERTING INTO DB: " + curDate + "  " + tempHour + "  " + countVal); /*
-                                    boolean isInserted = catDb.insertData(curDate, tempHour, countVal);
-                                    if (isInserted = true) {
-                                        Log.d(TAG, "...Inserted to database  " + curDate + "  " + tempHour + "  " + countVal);
-                                        Toast.makeText(MainActivity.this, "Data stored", Toast.LENGTH_LONG);
-                                        countVal = 0;
-                                    } else {
-                                        Log.d(TAG, "...Error inserting to database");
-                                        Toast.makeText(MainActivity.this, "Error storing data!", Toast.LENGTH_LONG);
-                                    }*/
+                                    Log.d(TAG, "INSERTING INTO DB: " + curDate + "  " + tempHour + "  " + countVal);
+                                    catDb.insertData(curDate, tempHour, countVal);
 
                                     countVal = 0;
                                     start = false;
                                 }
-                                    /*
-                                if (prevHour == splitInc[1]) {
-                                    countVal += recVal;
-                                    Log.d(TAG, "Count++... " + countVal);
-                                } else {
 
-                                    boolean isInserted = catDb.insertData(splitInc[0], splitInc[1], countVal);
-
-                                    if (isInserted = true) {
-                                        Log.d(TAG, "...Inserted to database  " + splitInc[0] + "  " + splitInc[1] + "  " + countVal);
-                                        Toast.makeText(MainActivity.this, "Data stored", Toast.LENGTH_LONG);
-                                        countVal = 0;
-                                    } else {
-                                        Log.d(TAG, "...Error inserting to database");
-                                        Toast.makeText(MainActivity.this, "Error storing data!", Toast.LENGTH_LONG);
-                                    }
-
-                                    prevHour = splitInc[1];
-                                } */
                             } catch (Exception e){
                                 Log.d(TAG, "Error recieving data... " + e);
                             }
 
-                            //prevHour = splitInc[1];
-
-                            //int countVal = Integer.parseInt(splitInc[2]);
 
                         }
-                        //Log.d(TAG, "...String:"+ sb.toString() +  "Byte:" + msg.arg1 + "...");
                         break;
                 }
             };
@@ -184,20 +150,19 @@ public class MainActivity extends Activity {
     public void viewActivity (View view){
         Intent intent = new Intent(this, ActivityGraph.class);
         startActivity(intent);
+        Log.d(TAG, "Act View button pressed!  ");
     }
 
     public void feedingTime (View view){
         Intent intent = new Intent(this, FeedingTime.class);
         startActivity(intent);
+        Log.d(TAG, "Feeding button pressed!  ");
     }
 
     public void tempIns (View view){
-        //Intent intent = new Intent(this, FeedingTime.class);
-        //startActivity(intent);
-        test++;
-        //catDb.insertData("04-04-2016", test, 887);
-        //db.execSQL("INSERT INTO " + "cat_1" + " (DATE, TIME, COUNT) VALUES " + "(" + "24-12-1001" +", " + "12" + ", " + "911" + ");");
-        Log.d(TAG, "...Inserted to database  ");
+        countvalue.setVisibility(View.VISIBLE);
+        txtshow.setVisibility(View.VISIBLE);
+        Log.d(TAG, "Data button pressed!  ");
     }
 
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
@@ -217,14 +182,7 @@ public class MainActivity extends Activity {
         super.onResume();
 
         Log.d(TAG, "...onResume - try connect...");
-
-        // Set up a pointer to the remote node using it's address.
         BluetoothDevice device = btAdapter.getRemoteDevice(address);
-
-        // Two things are needed to make a connection:
-        //   A MAC address, which we got above.
-        //   A Service ID or UUID.  In this case we are using the
-        //     UUID for SPP.
 
         try {
             btSocket = createBluetoothSocket(device);
@@ -232,14 +190,6 @@ public class MainActivity extends Activity {
             errorExit("Fatal Error", "In onResume() and socket create failed: " + e.getMessage() + ".");
         }
 
-    /*try {
-      btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
-    } catch (IOException e) {
-      errorExit("Fatal Error", "In onResume() and socket create failed: " + e.getMessage() + ".");
-    }*/
-
-        // Discovery is resource intensive.  Make sure it isn't going on
-        // when you attempt to connect and pass your message.
         btAdapter.cancelDiscovery();
 
         // Establish the connection.  This will block until it connects.
@@ -255,7 +205,7 @@ public class MainActivity extends Activity {
             }
         }
 
-        // Create a data stream so we can talk to server.
+        // Create a data stream
         Log.d(TAG, "...Create Socket...");
 
         mConnectedThread = new ConnectedThread(btSocket);
@@ -277,7 +227,6 @@ public class MainActivity extends Activity {
 
     private void checkBTState() {
         // Check for Bluetooth support and then check to make sure it is turned on
-        // Emulator doesn't support Bluetooth and will return null
         if(btAdapter==null) {
             errorExit("Fatal Error", "Bluetooth not support");
         } else {
@@ -304,8 +253,6 @@ public class MainActivity extends Activity {
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
 
-            // Get the input and output streams, using temp objects because
-            // member streams are final
             try {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
@@ -323,7 +270,7 @@ public class MainActivity extends Activity {
             while (true) {
                 try {
                     // Read from the InputStream
-                    bytes = mmInStream.read(buffer);		// Get number of bytes and message in "buffer"
+                    bytes = mmInStream.read(buffer);		// Get number of bytes and message in buffer
                     h.obtainMessage(RECIEVE_MESSAGE, bytes, -1, buffer).sendToTarget();		// Send to message queue Handler
                 } catch (IOException e) {
                     break;
@@ -331,15 +278,5 @@ public class MainActivity extends Activity {
             }
         }
 
-        /* Call this from the main activity to send data to the remote device */
-        public void write(String message) {
-            Log.d(TAG, "...Data to send: " + message + "...");
-            byte[] msgBuffer = message.getBytes();
-            try {
-                mmOutStream.write(msgBuffer);
-            } catch (IOException e) {
-                Log.d(TAG, "...Error data send: " + e.getMessage() + "...");
-            }
-        }
     }
 }

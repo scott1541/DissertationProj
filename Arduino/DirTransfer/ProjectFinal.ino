@@ -2,7 +2,7 @@
 Scott Pollard
 POL13390234
 
-CMP3XXXX
+CMP3060M
 Project - Feed Bruce's cats
 
 Arduino Code - C/C++  DIRECT TRANSMIT TO PHONE VERSION
@@ -63,22 +63,16 @@ void loop(){
   int y = (((int)_buff[3]) << 8) | _buff[2];
   int z = (((int)_buff[5]) << 8) | _buff[4];
 
-  x = x - 127;
+  x = x - 127; //Offset values to calibrate accelerometer
   y = y - 10;
   z = z + 35;
   
-  //Serial.print("x: ");
-  //Serial.print( x );
-  //Serial.print(" y: ");
-  //Serial.print( y );
-  //Serial.print(" z: ");
-  //Serial.println( z );
 
  int res = sqrt( pow(x,2) + pow(y,2) + pow(z,2));  //Calculate vector
 
   //Serial.println( res );
-
-  if (res > 100){
+ 
+  if (res > 100){  
     stepC++;
     //Serial.print("COUNTED!  ");
     //Serial.println( stepC );
@@ -86,7 +80,7 @@ void loop(){
   
   if (j > 10)
   {
-    Serial.print("Count_value:");
+    Serial.print("Count_value:");  //Print line via serial, outputs via bluetooth or serial monitor
     Serial.println(stepC);
     stepC = 0;
     j = 0;

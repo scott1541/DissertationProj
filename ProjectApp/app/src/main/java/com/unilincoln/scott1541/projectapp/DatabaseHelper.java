@@ -14,10 +14,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
 
-
-/**
- * Created by Scott on 26/03/2016.
- */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static String DB_PATH = "/data/data/com.unilincoln.scott1541.projectapp/databases/";
@@ -48,8 +44,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Log.d("DB Helper: ", "Database already exists");
         }else{
 
-            //By calling this method and empty database will be created into the default system path
-            //of your application so we are gonna be able to overwrite that database with our database.
             this.getReadableDatabase();
 
             try {
@@ -104,11 +98,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             myOutput.write(buffer, 0, length);
         }
 
-
         myOutput.flush();
         myOutput.close();
         myInput.close();
-
     }
 
     public void openDataBase() throws SQLException {
@@ -142,12 +134,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getData(String date)
     {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + TBL_NAME  + ";", null);//+  " WHERE Date = '" + date + "';", null);
+        Cursor data = db.rawQuery("SELECT * FROM " + TBL_NAME  +  " WHERE Date = '" + date + "';", null);
         return data;
     }
-    // Add your public helper methods to access and get content from the database.
-    // You could return cursors by doing "return myDataBase.query(....)" so it'd be easy
-    // to you to create adapters for your views.
+
     public void insertData(String dateV, int timeV, int countV)
     {
         Log.d("DB Helper: ","Inserting values: " + dateV + timeV + countV);
