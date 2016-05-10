@@ -40,7 +40,7 @@ public class ActivityGraph extends AppCompatActivity {
     }
 
     public void ReturnChart(String rDate){
-
+        /*
         Cursor data = catDb.getData(rDate);
 
         if (data.getCount() == 0) {
@@ -62,11 +62,11 @@ public class ActivityGraph extends AppCompatActivity {
                 Log.d(TAG, "DATA: " + data.getString(0) + " " + data.getString(1) + " " + data.getString(2) + " " + data.getString(3));
             }
         }
-
+        */
 
         try {
-            Log.d(TAG, "SUCCESS!!!!!!!!" + datee[3] + time[3] + count[3]);
-
+            //Log.d(TAG, "SUCCESS!!!!!!!!" + datee[3] + time[3] + count[3]);
+            int[] count = {10,20,40,60,80,25,35,10,10,50,100,60,80,110,65,75,130,80,65,50,30,15,10,10};
             BarChart bChar = (BarChart) findViewById(R.id.chart);
 
             ArrayList<BarEntry> entries = new ArrayList<>();

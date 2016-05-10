@@ -38,18 +38,18 @@ public class FeedingTime extends AppCompatActivity {
 
          food = (TextView) findViewById(R.id.textView5);
          getWeight = (EditText) findViewById(R.id.editText);
+    }
 
-        totalEnerg = (actValue * enPerkg) * catWeight;  //Calculation to work out energy
+        public void calcFood (View view){
+            catWeight = Integer.parseInt(getWeight.getText().toString());
+            totalEnerg = (actValue * enPerkg) * catWeight;  //Calculation to work out energy
 
-        //foodQuant = Integer.toString(totalEnerg);
-
-        //public void calcFood (View view){
-            //catWeight = Integer.parseInt(getWeight.getText().toString());
+            foodQuant = Integer.toString(totalEnerg);
             //catWeight = Integer.parseInt(catWeightS);
 
-            //food.setText(totalEnerg + "kJ");
+            food.setText(foodQuant + "kJ");
 
-    //}
+    }
 
 }
-}
+
